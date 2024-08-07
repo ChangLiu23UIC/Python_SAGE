@@ -3,12 +3,13 @@ import re
 from multiprocessing import Pool
 
 class Protein:
-    def __init__(self, sequence, rev):
+    def __init__(self, uniprot, peptides, rev):
+        self.uniprot = uniprot
         self.rev = rev
-        self.sequence = sequence
-        self.peptides = []
+        self.peptides = peptides
         self.b_ions = []
         self.y_ions = []
+
 
 def peptide_cleavage(rule:str, sequence:str, mis_cleavage:int = 2, min_len:int = 7, max_len:int = 50):
     """
@@ -22,7 +23,7 @@ def peptide_cleavage(rule:str, sequence:str, mis_cleavage:int = 2, min_len:int =
     cut_end_pos_list = [i.start() for i in re.finditer(exp_rule, sequence)] + [(len(sequence) - 1)]
     cut_start_pos_list = [0] + [i + 1 for i in cut_end_pos_list[:-1]]
 
-    pieces_list = {"start_pos": cut_start_pos_list, "end_pos": cut_end_pos_list}
+    # pieces_list = {"start_pos": cut_start_pos_list, "end_pos": cut_end_pos_list}
 
     result = [
         sequence[cut_start_pos_list[i]:cut_end_pos_list[j]]
@@ -48,7 +49,8 @@ def process_entry(entry, rule):
     sequence = ''.join(lines[1:])
     uniprot_id = header.split('|')[1]
     rev = header.split('|')[0].startswith("rev_")
-    return uniprot_id, peptide_cleavage(rule, sequence)
+    peptides = peptide_cleavage(rule, sequence)
+    return Protein(uniprot_id, peptides, rev)
 
 
 def cleave_fasta_with_enzyme_parallel(rule, filename):
@@ -66,10 +68,10 @@ def cleave_fasta_with_enzyme_parallel(rule, filename):
         results = pool.starmap(process_entry, [(entry, rule) for entry in entries])
 
     # Convert the results into a dictionary, filtering out None entries
-    uniprot_dict = {uniprot_id: cleaved_sequences for uniprot_id, cleaved_sequences in results if
-                    uniprot_id is not None}
+    protein_results = {protein.uniprot: protein for protein in results if protein is not None}
 
-    return uniprot_dict
+
+    return protein_results
 
 
 if __name__ == '__main__':
