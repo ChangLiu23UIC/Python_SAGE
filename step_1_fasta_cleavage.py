@@ -2,6 +2,13 @@ from expasy import expasy_rules
 import re
 from multiprocessing import Pool
 
+class Protein:
+    def __init__(self, sequence, rev):
+        self.rev = rev
+        self.sequence = sequence
+        self.peptides = []
+        self.b_ions = []
+        self.y_ions = []
 
 def peptide_cleavage(rule:str, sequence:str, mis_cleavage:int = 2, min_len:int = 7, max_len:int = 50):
     """
@@ -40,6 +47,7 @@ def process_entry(entry, rule):
     header = lines[0]
     sequence = ''.join(lines[1:])
     uniprot_id = header.split('|')[1]
+    rev = header.split('|')[0].startswith("rev_")
     return uniprot_id, peptide_cleavage(rule, sequence)
 
 
