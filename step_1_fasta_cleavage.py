@@ -2,6 +2,7 @@ from expasy import expasy_rules
 import re
 from multiprocessing import Pool
 
+
 class Protein:
     def __init__(self, uniprot, peptides, rev):
         self.uniprot = uniprot
@@ -50,7 +51,8 @@ def process_entry(entry, rule):
     uniprot_id = header.split('|')[1]
     rev = header.split('|')[0].startswith("rev_")
     peptides = peptide_cleavage(rule, sequence)
-    return Protein(uniprot_id, peptides, rev)
+    protein = Protein(uniprot_id, peptides, rev)
+    return protein
 
 
 def cleave_fasta_with_enzyme_parallel(rule, filename):
@@ -62,14 +64,14 @@ def cleave_fasta_with_enzyme_parallel(rule, filename):
     """
     with open(filename, 'r') as file_read:
         file_content = file_read.read()
-        entries = [entry for entry in file_content.split('>') if entry.strip()]
+        entries = [entry for entry in file_content.split('\n>') if entry.strip()]
 
     with Pool() as pool:
         results = pool.starmap(process_entry, [(entry, rule) for entry in entries])
 
-    # Convert the results into a dictionary, filtering out None entries
-    protein_results = {protein.uniprot: protein for protein in results if protein is not None}
 
+    # Convert the results into a dictionary, filtering out None entries
+    protein_results = {protein.uniprot: protein for protein in results}
 
     return protein_results
 
