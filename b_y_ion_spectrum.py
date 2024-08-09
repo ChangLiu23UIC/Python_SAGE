@@ -272,5 +272,15 @@ def average_and_sum_keys(data, threshold):
 
 
 if __name__ == '__main__':
-    # isotope_dict = read_isotope_csv("isotope.csv")
-    df, b_frag, y_frag = cal_b_y_ion_mass("SAMPLER")
+    import time
+
+    start_time = time.time()
+
+    isotope_dict = read_isotope_csv("isotope.csv")
+    results = isotope_calculator("MMKRPQLHRMRQLAQTGSLGRTKPETAEFLGEDL", isotope_dict)
+
+    end_time = time.time()
+
+
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time:.2f} seconds")
