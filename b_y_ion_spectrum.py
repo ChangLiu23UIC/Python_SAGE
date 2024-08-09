@@ -272,5 +272,5 @@ def average_and_sum_keys(data, threshold):
 
 
 if __name__ == '__main__':
-    isotope_dict = read_isotope_csv("isotope.csv")
+    # isotope_dict = read_isotope_csv("isotope.csv")
     df, b_frag, y_frag = cal_b_y_ion_mass("SAMPLER")
