@@ -114,3 +114,5 @@ if __name__ == '__main__':
     print(protein_weight("PEPTIDE"))
     am = peptide_composition("PEPTIDEMAMIMIASANAGI")
 
+
+    gm = peptide_composition("PEPTISODFNOWEIN")
