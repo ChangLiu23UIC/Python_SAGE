@@ -112,7 +112,7 @@ def protein_weight(protein_dict):
 
 if __name__ == '__main__':
     print(protein_weight("PEPTIDE"))
-    am = peptide_composition("PEPTIDEMAMIMIASANAGI")
+    am = peptide_composition("PEPTIDESDIFSDF")
 
 
-    gm = peptide_composition("PEPTISODFNOWEIN")
+    gm = peptide_composition("PEPTISLDFNMWEIN")

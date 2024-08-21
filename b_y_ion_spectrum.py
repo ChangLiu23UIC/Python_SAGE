@@ -277,7 +277,7 @@ if __name__ == '__main__':
     start_time = time.time()
 
     isotope_dict = read_isotope_csv("isotope.csv")
-    results = isotope_calculator("MAIVLKVVFQTHILRWNFGYSKDEHPVQTA", isotope_dict)
+    results = isotope_calculator("MAIVLKVVFQTHILRWNFGSDFSDFYSKDEHPVQTA", isotope_dict)
 
     end_time = time.time()
 
