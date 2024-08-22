@@ -11,7 +11,7 @@ class Protein:
         self.ions = ions
 
 
-def process_entry(entry, rule, isotope_dict):
+def process_entry(entry, rule):
     """
     Process a single FASTA entry.
     :param entry:
@@ -23,20 +23,20 @@ def process_entry(entry, rule, isotope_dict):
         return None, None
     header = lines[0]
     sequence = ''.join(lines[1:])
-    if "X" in sequence:
-        print(sequence)
-        print("")
-    uniprot_id = header.split('|')[1]
-    rev = header.split('|')[0].startswith("rev_")
-    peptides = peptide_cleavage(rule, sequence)
-    spectrum = {}
-    for peptide in peptides:
-        spectrum[peptide] = cal_b_y_ion_mass(peptide)
-    protein = Protein(uniprot_id, peptides, rev, spectrum)
-    return protein
+    if "X" in sequence or "U" in sequence:
+        return Protein("None", ["NONE"], False, {})
+    else:
+        uniprot_id = header.split('|')[1]
+        rev = header.split('|')[0].startswith("rev_")
+        peptides = peptide_cleavage(rule, sequence)
+        spectrum = {}
+        for peptide in peptides:
+            spectrum[peptide] = cal_b_y_ion_mass(peptide)
+        protein = Protein(uniprot_id, peptides, rev, spectrum)
+        return protein
 
 
-def run_fasta_to_class_parallel(rule, filename, isotope_dict):
+def run_fasta_to_class_parallel(rule, filename):
     """
     A function to read the fasta file into a {Uniprot_id: cleaved Sequence} dictionary format
     and process in parallel.
@@ -48,8 +48,7 @@ def run_fasta_to_class_parallel(rule, filename, isotope_dict):
         entries = [entry for entry in file_content.split('\n>') if entry.strip()]
 
     with Pool() as pool:
-        results = pool.starmap(process_entry, [(entry, rule, isotope_dict) for entry in entries])
-
+        results = pool.starmap(process_entry, [(entry, rule) for entry in entries])
 
     # Convert the results into a dictionary, filtering out None entries
     protein_results = {protein.uniprot: protein for protein in results}
@@ -64,9 +63,8 @@ if __name__ == '__main__':
 
     # Example usage
     rule = 'trypsin'
-    filename = 'human_1.fasta'
-    isotope_dict = read_isotope_csv("isotope.csv")
-    uniprot_sequences = run_fasta_to_class_parallel(rule, filename, isotope_dict)
+    filename = 'human.fasta'
+    uniprot_sequences = run_fasta_to_class_parallel(rule, filename)
 
     end_time = time.time()
 

@@ -65,12 +65,9 @@ def peptide_composition(peptide:str):
     """
     peptide_composition = defaultdict(int)
     for aa in peptide:
-        if aa in aminoacid:
-            mf = molecular_composition(aminoacid[aa])
-            for element, count in mf.items():
-                peptide_composition[element] += count
-        else:
-            return None
+        mf = molecular_composition(aminoacid[aa])
+        for element, count in mf.items():
+            peptide_composition[element] += count
 
     # Remove the waters when they do peptide bonds
     peptide_composition["H"] -= 2*(len(peptide)-1)
