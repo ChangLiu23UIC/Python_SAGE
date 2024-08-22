@@ -139,52 +139,52 @@ def sum_of_products(list1, list2):
     return result
 
 
-def prob_calc(atom, iso_num, total_num, iso_dict):
-    """
+# def prob_calc(atom, iso_num, total_num, iso_dict):
+#     """
+#
+#     :param atom:
+#     :param iso_num:
+#     :param total_num:
+#     :param iso_dict:
+#     :return:
+#     """
+#     # Enumerate all the masses and possibliliteis for the isotope information
+#     prob_list = [mass[1] for mass in iso_dict[atom]]
+#     mass_list = [mass[0] for mass in iso_dict[atom]]
+#     diff_num = len(prob_list)-1
+#     prob_result_list = []
+#     mass_result_list = []
+#     for possible_isotopes in get_combinations(diff_num, iso_num):
+#         atom_distribution = [total_num-iso_num] + possible_isotopes
+#         if atom_distribution[0] <0:
+#             continue
+#         else:
+#             probability_result = multinomial_probability(total_num, list(zip(atom_distribution, prob_list)))
+#             prob_result_list.append(probability_result)
+#
+#             mass = sum_of_products(atom_distribution, mass_list)
+#             mass_result_list.append(mass)
 
-    :param atom:
-    :param iso_num:
-    :param total_num:
-    :param iso_dict:
-    :return:
-    """
-    # Enumerate all the masses and possibliliteis for the isotope information
-    prob_list = [mass[1] for mass in iso_dict[atom]]
-    mass_list = [mass[0] for mass in iso_dict[atom]]
-    diff_num = len(prob_list)-1
-    prob_result_list = []
-    mass_result_list = []
-    for possible_isotopes in get_combinations(diff_num, iso_num):
-        atom_distribution = [total_num-iso_num] + possible_isotopes
-        if atom_distribution[0] <0:
-            continue
-        else:
-            probability_result = multinomial_probability(total_num, list(zip(atom_distribution, prob_list)))
-            prob_result_list.append(probability_result)
-
-            mass = sum_of_products(atom_distribution, mass_list)
-            mass_result_list.append(mass)
-
-    return [prob_result_list, mass_result_list]
+    # return [prob_result_list, mass_result_list]
 
 
-def prob_products(nested_list):
-    """
-    Compute all possible products from elements of each sublist in a nested list.
-
-    :param nested_list: A list of lists, where each sublist contains numeric elements.
-    :return: A list of products, one for each combination of elements from the sublists.
-    """
-    # Extract elements from sublists
-    elements = [sublist for sublist in nested_list]
-
-    # Compute the Cartesian product of these elements
-    all_combinations = list(itertools.product(*elements))
-
-    # Calculate the product for each combination
-    products = [math.prod(combination) for combination in all_combinations]
-
-    return products
+# def prob_products(nested_list):
+#     """
+#     Compute all possible products from elements of each sublist in a nested list.
+#
+#     :param nested_list: A list of lists, where each sublist contains numeric elements.
+#     :return: A list of products, one for each combination of elements from the sublists.
+#     """
+#     # Extract elements from sublists
+#     elements = [sublist for sublist in nested_list]
+#
+#     # Compute the Cartesian product of these elements
+#     all_combinations = list(itertools.product(*elements))
+#
+#     # Calculate the product for each combination
+#     products = [math.prod(combination) for combination in all_combinations]
+#
+#     return products
 
 
 def masses_sums(nested_list):
