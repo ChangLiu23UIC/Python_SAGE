@@ -30,8 +30,8 @@ def process_entry(entry, rule, isotope_dict):
     rev = header.split('|')[0].startswith("rev_")
     peptides = peptide_cleavage(rule, sequence)
     spectrum = {}
-    # for peptide in peptides:
-    #     spectrum[peptide] = isotope_calculator(peptide, isotope_dict)
+    for peptide in peptides:
+        spectrum[peptide] = cal_b_y_ion_mass(peptide)
     protein = Protein(uniprot_id, peptides, rev, spectrum)
     return protein
 

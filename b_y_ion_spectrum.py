@@ -37,14 +37,14 @@ def cal_b_y_ion_mass(peptide):
     indexing = list(range(1,len(peptide)+1))
 
     # Zip all the information into a table for pandas dataframe
-    info_table =  zip(*[list(peptide.upper()), indexing, b_ions, y_ions[::-1], indexing[::-1]])
+    info_table = zip(*[b_ions, y_ions[::-1]])
 
-    df = pd.DataFrame(info_table, columns = ["Seq", "#", "B", "Y", "#(+1)"])
+    flattened_list = [mz for pair in info_table for mz in pair]
 
     b_fragments = [peptide[:i] for i in range(1, len(peptide))]
     y_fragments = [peptide[-i:] for i in range(1, len(peptide))]
 
-    return df, b_fragments, y_fragments
+    return flattened_list, b_fragments, y_fragments
 
 
 def read_isotope_csv(filename: str) -> dict:
@@ -277,7 +277,7 @@ if __name__ == '__main__':
     start_time = time.time()
 
     isotope_dict = read_isotope_csv("isotope.csv")
-    # results = isotope_calculator("MAIVLKVVFQTHILRWNFGSDFSDFYSKDEHPVQTA", isotope_dict)
+    results, b_f, y_f = cal_b_y_ion_mass("MAIVLKVVFQTHILRWNFGSDFSDFYSKDEHPVQTA")
 
     end_time = time.time()
 
