@@ -1,8 +1,9 @@
-
-
-
 def decoy_generation(fasta_file:str):
-
+    """
+    Generates decoy for the FDR control
+    :param fasta_file:
+    :return:
+    """
     with open(fasta_file, "r") as file:
         with open(fasta_file.split(".")[0]+"_rev.fasta", "w") as writing:
             file_content = file.read().split("\n>")
