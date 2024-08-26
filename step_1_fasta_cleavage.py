@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
     # Example usage
     rule = 'trypsin'
-    filename = 'human_1.fasta'
+    filename = 'human.fasta'
     uniprot_sequences = run_fasta_to_class_parallel(rule, filename)
 
     end_time = time.time()
