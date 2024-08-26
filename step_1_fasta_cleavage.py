@@ -4,11 +4,12 @@ from b_y_ion_spectrum import *
 
 
 class Protein:
-    def __init__(self, uniprot, peptides, rev, ions):
+    def __init__(self, uniprot, peptides, rev, ions, ms1):
         self.uniprot = uniprot
         self.rev = rev
         self.peptides = peptides
         self.ions = ions
+        self.ms1 = ms1
 
 
 def process_entry(entry, rule):
@@ -24,15 +25,15 @@ def process_entry(entry, rule):
     header = lines[0]
     sequence = ''.join(lines[1:])
     if "X" in sequence or "U" in sequence:
-        return Protein("None", ["NONE"], False, {})
+        return Protein("None", ["NONE"], False, {}, [])
     else:
         uniprot_id = header.split('|')[1]
         rev = header.split('|')[0].startswith("rev_")
         peptides = peptide_cleavage(rule, sequence)
         spectrum = {}
-        for peptide in peptides:
-            spectrum[peptide] = cal_b_y_ion_mass(peptide)
-        protein = Protein(uniprot_id, peptides, rev, spectrum)
+        ms1 = sorted([protein_weight(peptide) for peptide in peptides])
+        #     spectrum[peptide] = cal_b_y_ion_mass(peptide)
+        protein = Protein(uniprot_id, peptides, rev, spectrum, ms1)
         return protein
 
 
@@ -63,7 +64,7 @@ if __name__ == '__main__':
 
     # Example usage
     rule = 'trypsin'
-    filename = 'human.fasta'
+    filename = 'human_1_rev.fasta'
     uniprot_sequences = run_fasta_to_class_parallel(rule, filename)
 
     end_time = time.time()

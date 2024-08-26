@@ -12,14 +12,13 @@ def decoy_generation(fasta_file:str):
                 header = ">" + lines[0] + "\n"
                 seq = "".join(lines[1:])
                 seq_n = seq + "\n"
-                rev_header = ">rev_" + lines[0] + "\n"
+                rev_header = ">rev_" + lines[0].split('|')[0] + "|" + lines[0].split('|')[1] + "_rev|" + "|".join(lines[0].split('|')[1:]) + "\n"
                 rev_seq = seq[::-1] + "\n"
                 writing.write(header)
                 writing.write(seq_n)
                 writing.write(rev_header)
                 writing.write(rev_seq)
         writing.close()
-        return file_content
 
 if __name__ == '__main__':
-    dd = decoy_generation("human_1.fasta")
+    decoy_generation("human_1.fasta")
