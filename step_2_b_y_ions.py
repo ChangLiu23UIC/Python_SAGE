@@ -10,18 +10,20 @@ def read_mzml_file(mzml_file):
         for spectrum in reader:
             scan_id = spectrum.get('id')
             ms_level = spectrum.get('ms level')
-            retention_time = spectrum.get('scanList', {}).get('scan', [{}])[0].get('scan start time')
 
             # Accessing m/z and intensity arrays
             mz_array = spectrum['m/z array']
             intensity_array = spectrum['intensity array']
 
-            # Print some information about the spectrum
-            print(f"Spectrum ID: {scan_id}")
-            print(f"MS Level: {ms_level}")
-            print(f"Retention Time: {retention_time} minutes")
-            print(f"Number of peaks: {len(mz_array)}")
+            # # Print some information about the spectrum
+            # print(f"Spectrum ID: {scan_id}")
+            # print(f"MS Level: {ms_level}")
+            # print(f"Retention Time: {retention_time} minutes")
+            # print(f"Number of peaks: {len(mz_array)}")
 
+            for mz, intensity in zip(mz_array, intensity_array):
+                print(f"m/z: {mz}, Intensity: {intensity}")
+                print(len(mz_array))
 
 if __name__ == '__main__':
     import time
