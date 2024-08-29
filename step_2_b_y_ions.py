@@ -16,20 +16,24 @@ def read_mzml_file(mzml_file):
             mz_array = spectrum['m/z array']
             intensity_array = spectrum['intensity array']
 
-            scan_id = scan_id.split(' ')[-1]
-
-            # # Print some information about the spectrum
-            # print(f"Spectrum ID: {scan_id}")
-            # print(f"MS Level: {ms_level}")
-            # print(f"Retention Time: {retention_time} minutes")
-            # print(f"Number of peaks: {len(mz_array)}")
+            scan_id = scan_id.split(' ')[-1].split("=")[1]
 
             spec = list(zip(mz_array, intensity_array))
 
-            if scan_id not in spec_list:
-                spec_list[scan_id] = {}
+            precursor_ions = []
+            if ms_level == 2:
+                # Access precursor information from the dictionary directly
+                if 'precursorList' in spectrum:
+                    precursor = spectrum['precursorList']['precursor'][0]
+                    precursor_mz = precursor['selectedIonList']['selectedIon'][0]['selected ion m/z']
+                    precursor_scan_id = precursor['spectrumRef']
+                    print(f"Precursor scan ID: {precursor_scan_id}, Precursor m/z: {precursor_mz}")
 
-            spec_list[scan_id][ms_level] = spec
+
+            if ms_level not in spec_list:
+                spec_list[ms_level] = {}
+
+            spec_list[ms_level][scan_id] = spec
 
     return spec_list
 
