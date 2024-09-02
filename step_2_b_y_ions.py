@@ -7,7 +7,8 @@ import lxml
 
 def read_mzml_file(mzml_file):
     with mzml.MzML(mzml_file) as reader:
-        spec_list = {}
+        spec_ms1_list = {}
+        spec_ms2_list = {}
         for spectrum in reader:
             scan_id = spectrum.get('id')
             ms_level = spectrum.get('ms level')
@@ -20,28 +21,30 @@ def read_mzml_file(mzml_file):
 
             spec = list(zip(mz_array, intensity_array))
 
-            precursor_ions = []
+            spec_ms2_list = {}
             if ms_level == 2:
                 # Access precursor information from the dictionary directly
                 if 'precursorList' in spectrum:
                     precursor = spectrum['precursorList']['precursor'][0]
                     precursor_mz = precursor['selectedIonList']['selectedIon'][0]['selected ion m/z']
-                    precursor_scan_id = precursor['spectrumRef']
-                    print(f"Precursor scan ID: {precursor_scan_id}, Precursor m/z: {precursor_mz}")
+                    precursor_scan_id = precursor['spectrumRef'].split(' ')[-1].split("=")[1]
+
+                    if precursor_scan_id not in spec_ms2_list:
+                        spec_ms2_list[precursor_scan_id] = {}
+
+                    spec_ms2_list[precursor_scan_id][precursor_mz] = spec
+
+            elif ms_level == 1:
+                spec_ms1_list[scan_id] = spec
 
 
-            if ms_level not in spec_list:
-                spec_list[ms_level] = {}
-
-            spec_list[ms_level][scan_id] = spec
-
-    return spec_list
+    return spec_ms1_list, spec_ms2_list
 
 if __name__ == '__main__':
     import time
 
     start_time = time.time()
-    spec = read_mzml_file("OV3-DMSO-n3-F9.mzML")
+    spec1, spec2 = read_mzml_file("OV3-DMSO-n3-F9.mzML")
     end_time = time.time()
 
     elapsed_time = end_time - start_time
