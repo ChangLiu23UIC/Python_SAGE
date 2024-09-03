@@ -6,6 +6,11 @@ from pyteomics import mzml
 import lxml
 
 def read_mzml_file(mzml_file):
+    """
+    This will read the mzml file and return the ms1 and ms2 spectrum
+    :param mzml_file:
+    :return:
+    """
     with mzml.MzML(mzml_file) as reader:
         spec_ms1_list = {}
         spec_ms2_list = {}
