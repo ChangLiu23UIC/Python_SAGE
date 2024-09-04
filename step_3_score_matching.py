@@ -1,5 +1,4 @@
 import numpy as np
-from scipy.signal import convolve
 
 
 def calculate_spectral_angle(theoretical_dist, mzml_dict):
