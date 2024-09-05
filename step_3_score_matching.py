@@ -12,7 +12,6 @@ def calculate_spectral_angle(theoretical_dist, mzml_dict):
     similarity = dot_product / (norm_theoretical * norm_observed)
     return 1.0 - (2.0 * np.arccos(np.clip(similarity, -1.0, 1.0)) / np.pi)
 
-
 def integrate_peaks(scores, spectral_angles, settings):
     best_rt = np.argmax(scores)
     best_score = scores[best_rt]
