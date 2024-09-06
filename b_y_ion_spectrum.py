@@ -3,7 +3,6 @@ import itertools
 import pandas as pd
 from b_y_ion_utility import *
 
-
 def cal_b_y_ion_mass(peptide):
     """
     Takes the peptide sequence and return a dataframe of b and y ion mass
