@@ -37,4 +37,19 @@ def integrate_peaks(scores, spectral_angles, settings):
 
 
 if __name__ == '__main__':
-    print("HI")
+    import time
+    from step_1_fasta_cleavage import *
+
+    start_time = time.time()
+
+
+    # Example usage
+    rule = 'trypsin'
+    filename = 'human_1_rev.fasta'
+    uniprot_sequences = run_fasta_to_class_parallel(rule, filename)
+
+    end_time = time.time()
+
+
+    elapsed_time = end_time - start_time
+    print(f"Elapsed time: {elapsed_time:.2f} seconds")
