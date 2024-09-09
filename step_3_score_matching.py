@@ -3,21 +3,32 @@ import heapq
 
 
 def insert_with_limit(new_element, limit=5):
+    """
+    Heap tree modification of the elements
+    Call this function in a for loop for the tree generation
+    :param new_element:
+    :param limit:
+    :return:
+    """
     heap = []
-    # If the heap has fewer than `limit` elements, add the new element
     if len(heap) < limit:
         heapq.heappush(heap, new_element)
     else:
-        # Only add the new element if it's larger than the smallest element (root)
         if new_element > heap[0]:
             heapq.heapreplace(heap, new_element)
     return heap
 
 
-def calculate_spectral_angle(theoretical_dist, mzml_dict):
-    dot_product = np.dot(theoretical_dist, mzml_dict)
-    norm_theoretical = np.linalg.norm(theoretical_dist)
-    norm_observed = np.linalg.norm(mzml_dict)
+def calculate_spectral_angle(theo_arr, maml_arr):
+    """
+    Calculate the angle similarity between two vectors(arraies)
+    :param theo_arr:
+    :param maml_arr:
+    :return:
+    """
+    dot_product = np.dot(theo_arr, maml_arr)
+    norm_theoretical = np.linalg.norm(theo_arr)
+    norm_observed = np.linalg.norm(maml_arr)
 
     if norm_observed == 0 or norm_theoretical == 0:
         return 0.0
