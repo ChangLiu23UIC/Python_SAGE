@@ -37,6 +37,13 @@ def calculate_spectral_angle(theo_arr, maml_arr):
     return 1.0 - (2.0 * np.arccos(np.clip(similarity, -1.0, 1.0)) / np.pi)
 
 def integrate_peaks(scores, spectral_angles, settings):
+    """
+
+    :param scores:
+    :param spectral_angles:
+    :param settings:
+    :return:
+    """
     best_rt = np.argmax(scores)
     best_score = scores[best_rt]
 

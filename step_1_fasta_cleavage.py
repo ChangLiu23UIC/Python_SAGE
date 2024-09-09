@@ -59,6 +59,7 @@ def run_fasta_to_class_parallel(rule, filename):
 
 if __name__ == '__main__':
     import time
+    from step_2_mzml_parse import *
 
     start_time = time.time()
 
@@ -67,7 +68,11 @@ if __name__ == '__main__':
     filename = 'human_1_rev.fasta'
     uniprot_sequences = run_fasta_to_class_parallel(rule, filename)
 
+    spec1, spec2 = read_mzml_file("OV3-DMSO-n3-F9.mzML")
+
+
     end_time = time.time()
+
 
 
     elapsed_time = end_time - start_time
