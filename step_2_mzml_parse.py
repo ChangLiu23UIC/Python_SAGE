@@ -95,7 +95,7 @@ if __name__ == '__main__':
     import time
 
     start_time = time.time()
-    spec1, spec2 = read_mzml_file_nointensity("OV3-DMSO-n3-F9.mzML")
+    spec1, spec2 = read_mzml_file("OV3-DMSO-n3-F9.mzML")
     end_time = time.time()
 
     elapsed_time = end_time - start_time
