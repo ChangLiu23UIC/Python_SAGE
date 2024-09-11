@@ -45,6 +45,7 @@ def read_mzml_file(mzml_file):
                 # Store MS1 spectrum
                 spec_ms1_list[scan_id] = spec
 
+
     return spec_ms1_list, spec_ms2_list
 
 
