@@ -23,6 +23,7 @@ def read_mzml_file(mzml_file):
             mz_array = spectrum['m/z array']
             intensity_array = spectrum['intensity array']
 
+
             scan_id = scan_id.split(' ')[-1].split("=")[1]
 
             # Create a tuple of (m/z, intensity)
