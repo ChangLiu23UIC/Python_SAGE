@@ -37,6 +37,7 @@ def read_mzml_file(mzml_file):
                     precursor_scan_id = precursor['spectrumRef'].split(' ')[-1].split("=")[1]
 
                     # Add precursor scan id and mz to MS2 spectrum list
+
                     if precursor_scan_id not in spec_ms2_list:
                         spec_ms2_list[precursor_scan_id] = {}
 
