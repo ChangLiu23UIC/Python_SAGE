@@ -14,13 +14,8 @@ def apply_fixed_modifications(sequence, modifications_dict):
 
     # Iterate through each amino acid in the sequence
     for aa in sequence:
-        # Get the original mass of the amino acid
         base_mass = protein_weight(sequence)
-
-        # Apply modification if it exists; otherwise, no change (modification is 0 by default)
         modified_mass = base_mass + modifications_dict.get(aa)
-
-        # Store the amino acid and its modified mass
         modified_sequence.append((aa, modified_mass))
 
     return modified_sequence
